@@ -32,7 +32,7 @@ function Update-WalThemeInternal {
     $currentTheme = Get-CurrentTheme
 
     # Construct wal arguments
-    $walArgs = @('-e', '-s', '-t', '-i', $tempImg, '--backend', $Backend)
+    $walArgs = @('-e', '-s', '-t', '-i', $tempImg, '--cols16')
     if ($img) {
       $walArgs += '-n'
     }
@@ -63,8 +63,10 @@ function Update-WalThemeInternal {
   }
 
   # New oh-my-posh
-  if ((Get-Command oh-my-posh -ErrorAction SilentlyContinue) -and (Test-Path -Path "$HOME/.cache/wal/posh-wal-agnoster.omp.json")) {
-    oh-my-posh init pwsh --config "$HOME/.cache/wal/posh-wal-agnoster.omp.json" | Invoke-Expression
+  if ((Get-Command oh-my-posh -ErrorAction SilentlyContinue) -and (Test-Path -Path "$HOME/Documents/PowerShell/custom_theme.json")) {
+    python "$HOME/Documents/PowerShell/generate_theme.py"
+    # Initialize oh-my-posh with the custom theme
+    oh-my-posh init pwsh --config "$HOME/Documents/PowerShell/custom_theme.json" | Invoke-Expression
   }
 
   # Check if pywal fox needs to update
